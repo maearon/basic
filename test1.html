@@ -1,0 +1,90 @@
+<html>
+
+<head>
+  <title>cases to achieve a soccer score</title>
+  <meta charset="UTF-8">
+  <script>
+    const scoreDisplay = document.querySelector('#score')
+    let score = 0
+    let currentDroppable = null;
+    let ballIsOverDroppable = false;
+
+    ball.onmousedown = function(event) {
+
+      let shiftX = event.clientX - ball.getBoundingClientRect().left;
+      let shiftY = event.clientY - ball.getBoundingClientRect().top;
+
+      ball.style.position = 'absolute';
+      ball.style.zIndex = 1000;
+      document.body.append(ball);
+
+      moveAt(event.pageX, event.pageY);
+
+      function moveAt(pageX, pageY) {
+        ball.style.left = pageX - shiftX + 'px';
+        ball.style.top = pageY - shiftY + 'px';
+      }
+
+      function onMouseMove(event) {
+        moveAt(event.pageX, event.pageY);
+
+        ball.hidden = true;
+        let elemBelow = document.elementFromPoint(event.clientX, event.clientY);
+        ball.hidden = false;
+
+        if (!elemBelow) return;
+
+        let droppableBelow = elemBelow.closest('.droppable');
+        if (currentDroppable != droppableBelow) {
+          if (currentDroppable) { // null when we were not over a droppable before this event
+            leaveDroppable(currentDroppable);
+          }
+          currentDroppable = droppableBelow;
+          if (currentDroppable) { // null if we're not coming over a droppable now
+            // (maybe just left the droppable)
+            enterDroppable(currentDroppable);
+          }
+        }
+      }
+
+
+      document.addEventListener('mousemove', onMouseMove);
+
+      ball.onmouseup = function() {
+        document.removeEventListener('mousemove', onMouseMove);
+        ball.onmouseup = null;
+        if (ballIsOverDroppable) {
+          score++;
+          scoreDisplay.textContent = `${score}`;
+
+        }
+      };
+
+    };
+
+    function enterDroppable(elem) {
+      elem.style.background = 'pink';
+      ballIsOverDroppable = true;
+    }
+
+    function leaveDroppable(elem) {
+      elem.style.background = '';
+      ballIsOverDroppable = false;
+    }
+
+    ball.ondragstart = function() {
+      return false;
+    };
+  </script>
+</head>
+
+<body>
+    <h3>Score:<span id="score">0</span></h3>
+    <button id="start-button">Start/Pause</button>
+
+    <p>Drag the ball.</p>
+
+    <img src="https://en.js.cx/clipart/soccer-gate.svg" id="gate" class="droppable">
+    <img src="https://picsum.photos/20/20" id="ball" style="border-radius: 20px; border: 2px solid black;">
+</body>
+</html>

@@ -30,7 +30,6 @@ class LikeButton extends React.Component {
               var a = value.split(' ')[value.split(' ').length - 2];
               var b = value.split(' ')[value.split(' ').length - 1];
               var way = this.fac((+a)+(+b))/(this.fac(+a)*this.fac(+b));
-              console.log(way);
               newArray.push(way);
               var textarea = document.getElementById("myTextarea2");
               textarea.value = newArray.join("\n");

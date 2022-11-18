@@ -32,46 +32,28 @@ class LikeButton extends React.Component {
           if (index !== 0 && index <= array[0]*2 && index%2!==0) {
             k = value.split(' ')[value.split(' ').length - 2];
             budget = value.split(' ')[value.split(' ').length - 1];
-            // var way = this.fac((+a)+(+b))/(this.fac(+a)*this.fac(+b));
-            console.log(k);
-            // newArray.push(way);
-            // var textarea = document.getElementById("myTextarea2");
-            // textarea.value = newArray.join("\n");
           }
           if (index !== 0 && index <= array[0]*2 && index%2===0) {
-              // var a = value.split(' ')[value.split(' ').length - 2];
-              // var b = value.split(' ')[value.split(' ').length - 1];
-              // var way = this.fac((+a)+(+b))/(this.fac(+a)*this.fac(+b));
-              console.log(value);
-              var i;
-              for(i = k; i >= 1; i--)  
-              {
-                salary.push(value.split(' ')[value.split(' ').length - i]);
+            var i;
+            for(i = k; i >= 1; i--)  
+            {
+              salary.push(value.split(' ')[value.split(' ').length - i]);
+            }
+            salary = salary.sort();
+            var total = 0;
+            for(i = 0; i <= salary.length-1; i++)  
+            {
+              total += salary[i];
+              if ((+total+(+salary[i+1])) > budget) {
+                resultArray.push(i == 0 ? i : i+1);
+                break;
               }
-              
-              // newArray.push(way);
-              // var textarea = document.getElementById("myTextarea2");
-              // textarea.value = newArray.join("\n");
-              salary = salary.sort();
-              // console.log(salary);
-              var total = 0;
-              for(i = 0; i <= salary.length-1; i++)  
-              {
-                total += salary[i];
-                console.log((+total+(+salary[i+1])) > budget);
-                if ((+total+(+salary[i+1])) > budget) {
-                  resultArray.push(i == 0 ? i : i+1);
-                  console.log(salary[i+1]);
-                  break;
-                }
-              }
-              salary = [];
-              console.log(resultArray);
-          }
-          
+            }
+            salary = [];
+        }
       }
       var textarea = document.getElementById("myTextarea2");
-          textarea.value = resultArray.join("\n");
+      textarea.value = resultArray.join("\n");
 
       return array;
     }

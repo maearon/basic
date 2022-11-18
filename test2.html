@@ -1,90 +1,69 @@
+<!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Tuyển nhân sự</title>
+  </head>
+  <body>
 
-<head>
-  <title>How many can TT hire?</title>
-  <meta charset="UTF-8">
-  <script>
-    const scoreDisplay = document.querySelector('#score')
-    let score = 0
-    let currentDroppable = null;
-    let ballIsOverDroppable = false;
+    <h2>This month Tokyo Techies received k job applications. Each applicant i expects a salary of salary[i] man Yen per
+      month.</h2>
+    <p>TT wants to hire as many as possible. However, the salary budget is limited to budget man Yen per month. How many
+      can TT hire?</p>
+    <hr>
+    <p>Tháng này Tokyo Techies nhận được k đơn ứng tuyển. Mỗi người ứng tuyển i có 1 mức lương mong muốn
+      salary[i] vạn yên/tháng.</p>
+    <p>TT muốn tuyển được càng nhiều người càng tốt, nhưng ngân quỹ để trả lương cho nhân viên chỉ còn budget vạn
+      yên/tháng. Vậy TT có thể tuyển được tối đa bao nhiêu người trong số đã ứng tuyển?</p>
+    <h2>Input Format</h2>
+    <ul>
+      <li>Dòng đầu là số test case con N .</li>
+      <li>2*N dòng tiếp theo, cứ 2 dòng là 1 test case, trong đó:</li>
+      <ul>
+        <li>Dòng thứ nhất là số người ứng tuyển k và quỹ lương hàng tháng budget</li>
+        <li>Dòng thứ 2 chứ k số tự nhiên, là mức lương mong muốn của các ứng viên salary .</li>
+      </ul>
+    </ul>
+    <h2>Constraints</h2>
+    <ul>
+      <li>0 < N <= 100</li>
+      <li>0 < k <= 100</li>
+      <li>0 <= budget <= 3000</li>
+      <li>0 < salary[i] <= 100 (0 <= i < k )</li>
+    </ul>
+    <h2>Output Format</h2>
+    <p>Exactly N lines, the i -th line contains a single integer: the maximum number of applicants Tokyo Techies can hire.</p>
+    <br>
+    <p>Gồm N dòng, dòng thứ i là số ứng viên tối đa Tokyo Techies có thể thuê được tại test case thứ i .</p>
+    <p>Sample Input 0</p>
+    <textarea rows="4">
+      4 5
+      1 2 3 4
+      5 1
+      5 5 5 5 5
+    </textarea rows="2">
+    <h2>Sample Output 0</h2>
+    <textarea>
+      2
+      0
+    </textarea>
+    <h2>Explanation 0</h2>
+    <ul>
+      <li>Case 1, NAL JP có thể tuyển người thứ nhất và cùng với bất cứ người nào trong 3 người còn lại, hoặc tuyển người
+        thứ 2 và 3.</li>
+      <li>Case 2, tuy có tới 5 CV nhưng NAL JP đã hết tiền, ko thuê được ai cả.</li>
+    </ul>
 
-    ball.onmousedown = function(event) {
+    <!-- We will put our React component inside this div. -->
+    <div id="like_button_container"></div>
 
-      let shiftX = event.clientX - ball.getBoundingClientRect().left;
-      let shiftY = event.clientY - ball.getBoundingClientRect().top;
+    <!-- Load React. -->
+    <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
 
-      ball.style.position = 'absolute';
-      ball.style.zIndex = 1000;
-      document.body.append(ball);
+    <!-- Load our React component. -->
+    <script src="like_button.js"></script>
 
-      moveAt(event.pageX, event.pageY);
-
-      function moveAt(pageX, pageY) {
-        ball.style.left = pageX - shiftX + 'px';
-        ball.style.top = pageY - shiftY + 'px';
-      }
-
-      function onMouseMove(event) {
-        moveAt(event.pageX, event.pageY);
-
-        ball.hidden = true;
-        let elemBelow = document.elementFromPoint(event.clientX, event.clientY);
-        ball.hidden = false;
-
-        if (!elemBelow) return;
-
-        let droppableBelow = elemBelow.closest('.droppable');
-        if (currentDroppable != droppableBelow) {
-          if (currentDroppable) { // null when we were not over a droppable before this event
-            leaveDroppable(currentDroppable);
-          }
-          currentDroppable = droppableBelow;
-          if (currentDroppable) { // null if we're not coming over a droppable now
-            // (maybe just left the droppable)
-            enterDroppable(currentDroppable);
-          }
-        }
-      }
-
-
-      document.addEventListener('mousemove', onMouseMove);
-
-      ball.onmouseup = function() {
-        document.removeEventListener('mousemove', onMouseMove);
-        ball.onmouseup = null;
-        if (ballIsOverDroppable) {
-          score++;
-          scoreDisplay.textContent = `${score}`;
-
-        }
-      };
-
-    };
-
-    function enterDroppable(elem) {
-      elem.style.background = 'pink';
-      ballIsOverDroppable = true;
-    }
-
-    function leaveDroppable(elem) {
-      elem.style.background = '';
-      ballIsOverDroppable = false;
-    }
-
-    ball.ondragstart = function() {
-      return false;
-    };
-  </script>
-</head>
-
-<body>
-    <h3>Score:<span id="score">0</span></h3>
-    <button id="start-button">Start/Pause</button>
-
-    <p>Drag the ball.</p>
-
-    <img src="https://en.js.cx/clipart/soccer-gate.svg" id="gate" class="droppable">
-    <img src="https://picsum.photos/20/20" id="ball" style="border-radius: 20px; border: 2px solid black;">
-</body>
+  </body>
 </html>
